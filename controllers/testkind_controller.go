@@ -21,6 +21,8 @@ import (
 	"fmt"
 
 	"k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/api/meta"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -66,6 +68,10 @@ func (r *TestkindReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	log.Info(fmt.Sprintf("city number: %d", len(testkind.Spec.Cities)))
 	log.Info("params: " + fmt.Sprint(testkind.Spec.Params))
 	log.Info(fmt.Sprintf("param number: %d", len(testkind.Spec.Params)))
+
+	meta.SetStatusCondition(&testkind.Status.Conditions, metav1.Condition{Type: string("type1"), Status: "True", Reason: "reason1", Message: "message1"})
+	meta.SetStatusCondition(&testkind.Status.Conditions, metav1.Condition{Type: string("type1"), Status: "True", Reason: "reason2", Message: "message2"})
+	meta.SetStatusCondition(&testkind.Status.Conditions, metav1.Condition{Type: string("type2"), Status: "True", Reason: "reason3", Message: "message3"})
 
 	if testkind.Spec.Country == "China" {
 		testkind.Status.Phase = "my country"
