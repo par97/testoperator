@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 
+	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -66,6 +67,21 @@ func (r *TestkindReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	log.Info("params: " + fmt.Sprint(testkind.Spec.Params))
 	log.Info(fmt.Sprintf("param number: %d", len(testkind.Spec.Params)))
 
+	if testkind.Spec.Country == "China" {
+		testkind.Status.Phase = "my country"
+	} else {
+		testkind.Status.Phase = "foreign country"
+	}
+	err = r.Status().Update(context.TODO(), testkind)
+	if err != nil {
+		if errors.IsConflict(err) {
+			log.Info("Update status conflict")
+		} else {
+			log.Error(err, "failed to update status")
+		}
+		return ctrl.Result{}, err
+	}
+	log.Info("updated status phase to: " + testkind.Status.Phase)
 	return ctrl.Result{}, nil
 }
 
