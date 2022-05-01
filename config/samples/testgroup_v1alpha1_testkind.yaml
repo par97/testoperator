@@ -1,0 +1,6 @@
+apiVersion: testgroup.par.xyz/v1alpha1
+kind: Testkind
+metadata:
+  name: testkind-sample
+spec:
+  # TODO(user): Add fields here
