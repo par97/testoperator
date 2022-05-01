@@ -1,0 +1,13 @@
+apiVersion: testgroup.par.xyz/v1alpha1
+kind: Testkind
+metadata:
+  name: t3
+spec:
+  country: Japan
+  population: 2
+  cities:
+  - Toyko
+  - daban
+  params:
+    location: east
+    wealth: high

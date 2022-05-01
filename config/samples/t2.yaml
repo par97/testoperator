@@ -1,0 +1,13 @@
+apiVersion: testgroup.par.xyz/v1alpha1
+kind: Testkind
+metadata:
+  name: t2
+spec:
+  country: US
+  population: 6
+  cities:
+  - new york
+  - washington
+  params:
+    location: west
+    wealth: high

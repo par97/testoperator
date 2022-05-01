@@ -1,0 +1,15 @@
+apiVersion: testgroup.par.xyz/v1alpha1
+kind: Testkind
+metadata:
+  name: t1
+spec:
+  country: China
+  population: 13
+  cities:
+  - shanghai
+  - beijing
+  params:
+    location: east
+    wealth: medium
+
+
