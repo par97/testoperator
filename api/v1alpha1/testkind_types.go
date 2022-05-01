@@ -28,14 +28,25 @@ type TestkindSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of Testkind. Edit testkind_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// type is used to explain how to parse Params map below
+	// +kubebuilder:validation:Enum=China;US
+	Country string `json:"country"`
+
+	Population int32 `json:"population,omitempty"`
+
+	Cities []string `json:"cities,omitempty"`
+
+	// Params contain provider-specific parameters
+	Params map[string]string `json:"params,omitempty"`
 }
 
 // TestkindStatus defines the observed state of Testkind
 type TestkindStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Phase string `json:"phase,omitempty"`
+
+	Conditions []metav1.Condition `json:"conditions,omitempty"`
 }
 
 //+kubebuilder:object:root=true

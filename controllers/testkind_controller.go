@@ -18,6 +18,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -50,6 +51,20 @@ func (r *TestkindReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 
 	log := ctrllog.Log.WithValues("testkind", req.NamespacedName)
 	log.Info("Begging of reconcile()")
+
+	testkind := &testgroupv1alpha1.Testkind{}
+	err := r.Get(ctx, req.NamespacedName, testkind)
+	if err != nil {
+		// Error reading the object - requeue the req.
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	log.Info("name: " + testkind.Name)
+	log.Info("country: " + testkind.Spec.Country)
+	log.Info("cities: " + fmt.Sprint(testkind.Spec.Cities))
+	log.Info(fmt.Sprintf("city number: %d", len(testkind.Spec.Cities)))
+	log.Info("params: " + fmt.Sprint(testkind.Spec.Params))
+	log.Info(fmt.Sprintf("param number: %d", len(testkind.Spec.Params)))
 
 	return ctrl.Result{}, nil
 }
